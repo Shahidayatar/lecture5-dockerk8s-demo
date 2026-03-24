@@ -440,6 +440,49 @@ flowchart TB
 **Compose** → Run multiple containers together  
 **Kubernetes** → Orchestrate containers at scale with auto-scaling, self-healing, load balancing
 
----
+**Answers**
+
+
 
 **University of Bern | DevOps for Cyber-Physical Systems**
+1. ![Adminer showing tasks table](screenshots/image.png) // please click on "image.png" to redirect 
+2. Modify the Dockerfile to use python:3.11-alpine instead of python:3.11-slim.
+a) What changes are needed to make it work with Alpine?
+answer : Python packages with native extensions (like psycopg2) won’t build without them
+So we need to install build tools
+
+b ) ![](screenshots/dockerimagesizes.png)
+
+Slim version: normal size (~232 MB).
+Alpine version:  large (1.05 GB).
+
+Alpine build initially failed for Python packages (like psycopg2) because required dev libraries were missin 
+
+
+**docker operations**
+1. commands used 
+docker login
+docker build -t shahid274/task-app:v1.0 .
+docker push shahid274/task-app:v1.0
+ ![Docker image on docker hub](screenshots/dockerhubimage.png)
+
+ 2. commands
+ docker compose logs web ----- (Real-time output from the web container)
+ docker inspect lecture5-web  ----- (Detailed JSON containing all configuration and state of the container)
+ docker stats ------- (Real-time metrics of running containers, cpu, memory usage etc)
+
+ *** Deploy to Kubernetes ***
+ 1. ![Kubernetes](screenshots/Kubernetes.png)
+ ![kubernets terminal](screenshots/kubernetsterminal.png)
+
+ 2. ![load balancing](screenshots/loadbalaicingkuber.png)
+
+ Kubernetes distributes traffic via the Service abstraction.
+The Service acts as a load balancer, forwarding each incoming request to one of the available pods behind it.
+
+3. self healing 
+
+![pod deleted and created](screenshots/selfhealing.png)
+
+Self-healing ensures high availability and reliability of applications.
+If a pod fails or is deleted, Kubernetes automatically recreates it to maintain the desired number of replicas. the screenshot shows pods get recreted after getting deleted 4. Commit and push all changes to your fork

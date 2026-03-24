@@ -2,7 +2,7 @@
 # Lecture 5: Docker Compose Demo
 # DevOps for Cyber-Physical Systems | University of Bern
 # ============================================================
-# Multi-tier application: Web + Database + Cache
+# Multi-tier application: Web + Database + Cache + Adminer
 #
 # Start:  docker compose up
 # Stop:   docker compose down
@@ -84,6 +84,22 @@ services:
       - "6379:6379"
     networks:
       - app-network
+    restart: unless-stopped
+
+  # ----------------------------------------------------------
+  # ADMINER (Database UI)
+  # ----------------------------------------------------------
+  adminer:
+    image: adminer:latest
+    container_name: lecture5-adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    depends_on:
+      - db
+    environment:
+      ADMINER_DEFAULT_SERVER: db
     restart: unless-stopped
 
 # ============================================================
